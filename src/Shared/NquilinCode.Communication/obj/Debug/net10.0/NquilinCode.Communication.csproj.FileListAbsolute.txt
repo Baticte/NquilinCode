@@ -1,0 +1,11 @@
+C:\Users\BATICTÉNABITCHITA\Study_Workspace\NquilinCode\src\Shared\NquilinCode.Communication\bin\Debug\net10.0\NquilinCode.Communication.deps.json
+C:\Users\BATICTÉNABITCHITA\Study_Workspace\NquilinCode\src\Shared\NquilinCode.Communication\bin\Debug\net10.0\NquilinCode.Communication.dll
+C:\Users\BATICTÉNABITCHITA\Study_Workspace\NquilinCode\src\Shared\NquilinCode.Communication\bin\Debug\net10.0\NquilinCode.Communication.pdb
+C:\Users\BATICTÉNABITCHITA\Study_Workspace\NquilinCode\src\Shared\NquilinCode.Communication\obj\Debug\net10.0\NquilinCode.Communication.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\BATICTÉNABITCHITA\Study_Workspace\NquilinCode\src\Shared\NquilinCode.Communication\obj\Debug\net10.0\NquilinCode.Communication.AssemblyInfoInputs.cache
+C:\Users\BATICTÉNABITCHITA\Study_Workspace\NquilinCode\src\Shared\NquilinCode.Communication\obj\Debug\net10.0\NquilinCode.Communication.AssemblyInfo.cs
+C:\Users\BATICTÉNABITCHITA\Study_Workspace\NquilinCode\src\Shared\NquilinCode.Communication\obj\Debug\net10.0\NquilinCode.Communication.csproj.CoreCompileInputs.cache
+C:\Users\BATICTÉNABITCHITA\Study_Workspace\NquilinCode\src\Shared\NquilinCode.Communication\obj\Debug\net10.0\NquilinCode.Communication.dll
+C:\Users\BATICTÉNABITCHITA\Study_Workspace\NquilinCode\src\Shared\NquilinCode.Communication\obj\Debug\net10.0\refint\NquilinCode.Communication.dll
+C:\Users\BATICTÉNABITCHITA\Study_Workspace\NquilinCode\src\Shared\NquilinCode.Communication\obj\Debug\net10.0\NquilinCode.Communication.pdb
+C:\Users\BATICTÉNABITCHITA\Study_Workspace\NquilinCode\src\Shared\NquilinCode.Communication\obj\Debug\net10.0\ref\NquilinCode.Communication.dll

@@ -1,0 +1,39 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v10.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v10.0": {
+      "NquilinCode.Domain/1.0.0": {
+        "dependencies": {
+          "NquilinCode.Kernel": "1.0.0"
+        },
+        "runtime": {
+          "NquilinCode.Domain.dll": {}
+        }
+      },
+      "NquilinCode.Kernel/1.0.0": {
+        "runtime": {
+          "NquilinCode.Kernel.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      }
+    }
+  },
+  "libraries": {
+    "NquilinCode.Domain/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "NquilinCode.Kernel/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

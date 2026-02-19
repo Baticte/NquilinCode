@@ -1,0 +1,6 @@
+@NquilinCode.API_HostAddress = http://localhost:5096
+
+GET {{NquilinCode.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

@@ -1,0 +1,42 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net10.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Update="Resources\ValidationMessages.resx">
+        <Generator>PublicResXFileCodeGenerator</Generator>
+        <LastGenOutput>ValidationMessages.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\ValidationMessages.pt-PT.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>ValidationMessages.pt.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\ValidationMessages.fr.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>ValidationMessages.fr.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Update="Resources\ValidationMessages.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>ValidationMessages.resx</DependentUpon>
+      </Compile>
+      <Compile Update="Resources\ValidationMessages.pt-PT.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>ValidationMessages.pt-PT.resx</DependentUpon>
+      </Compile>
+      <Compile Update="Resources\ValidationMessages.fr.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>ValidationMessages.fr.resx</DependentUpon>
+      </Compile>
+    </ItemGroup>
+
+</Project>
