@@ -30,6 +30,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApi.Test", "tests\WebApi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NquilinCode.Kernel", "src\Shared\NquilinCode.Kernel\NquilinCode.Kernel.csproj", "{155DB054-4CE1-4B25-BCA2-39A84528E340}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{C966523B-7FE1-454A-A932-F362998D7B9E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{88C0D811-49FF-4C2B-94BC-979DA7E4E16E}"
+	ProjectSection(SolutionItems) = preProject
+		.github\workflows\build.yml = .github\workflows\build.yml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -49,6 +56,7 @@ Global
 		{E7161538-6353-436E-92C0-0D849A6988EB} = {8973B6C3-7AF8-43DD-B804-A9F32EBDBCF4}
 		{E428248D-6C11-45DC-BFA6-3D2CFB0AB187} = {8973B6C3-7AF8-43DD-B804-A9F32EBDBCF4}
 		{155DB054-4CE1-4B25-BCA2-39A84528E340} = {DCF58E06-12D0-481E-BBBA-D0E929F2CDFD}
+		{88C0D811-49FF-4C2B-94BC-979DA7E4E16E} = {C966523B-7FE1-454A-A932-F362998D7B9E}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{6F49D96D-60F0-4016-A484-469A82968460}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
