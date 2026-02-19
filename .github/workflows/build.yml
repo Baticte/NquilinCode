@@ -2,14 +2,12 @@ name: SonarQube
 
 on:
   push:
-    branches:
-      - develop
+    branches: [develop]
   pull_request:
     types: [opened, synchronize, reopened]
 
 jobs:
   build:
-    name: Build and Analyze
     runs-on: windows-latest
 
     steps:
@@ -17,30 +15,36 @@ jobs:
         with:
           fetch-depth: 0
 
-      # Instalar dotnet-sonarscanner
+      # Instala dotnet-sonarscanner como tool global
       - name: Install SonarScanner
         run: dotnet tool install --global dotnet-sonarscanner
+        shell: pwsh
+
+      # Adiciona .dotnet/tools ao PATH
+      - name: Add dotnet tools to PATH
+        shell: pwsh
+        run: $env:PATH += ";$env:USERPROFILE\.dotnet\tools"
 
       # Begin Sonar
-      - name: Begin SonarQube Scan
+      - name: Begin Sonar Scan
+        shell: pwsh
         run: dotnet sonarscanner begin `
           /k:"Baticte_NquilinCode" `
           /o:"baticte" `
           /d:sonar.login="${{ secrets.SONAR_TOKEN }}" `
           /d:sonar.cs.cobertura.reportsPaths="**/coverage.cobertura.xml"
-        shell: powershell
-        env:
-          PATH: ${{ runner.tool_cache }}/dotnet/tools:$PATH
 
-      # Build solution
+      # Build
       - name: Build Solution
+        shell: pwsh
         run: dotnet build
 
-      # Testar com cobertura
+      # Test + coverage
       - name: Run Tests with Coverage
+        shell: pwsh
         run: dotnet test --collect:"XPlat Code Coverage" --results-directory ./TestResults
 
       # End Sonar
-      - name: End SonarQube Scan
+      - name: End Sonar Scan
+        shell: pwsh
         run: dotnet sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
-        shell: powershell
