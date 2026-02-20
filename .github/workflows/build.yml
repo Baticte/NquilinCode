@@ -45,18 +45,28 @@ jobs:
 
       - name: Build and analyze
         env:
-          # Mapping the secret to an environment variable here fixes the security hotspot
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         shell: powershell
         run: |
-          # Use $env:SONAR_TOKEN to reference the variable securely
+          # 1. Iniciar o Scanner com o path para o relatório de cobertura
           ${{ runner.temp }}\scanner\dotnet-sonarscanner begin `
             /k:"Baticte_NquilinCode" `
             /o:"baticte" `
             /d:sonar.token="$env:SONAR_TOKEN" `
-            /d:sonar.host.url="https://sonarcloud.io"
+            /d:sonar.host.url="https://sonarcloud.io" `
+            /d:sonar.cs.opencover.reportsPaths="**/TestResults/**/coverage.opencover.xml" `
+            /d:sonar.coverage.exclusions="**Test*.cs"
 
-          dotnet build
+          # 2. Build da aplicação
+          dotnet build --configuration Release
 
+          # 3. EXECUTAR TESTES E COLETAR COBERTURA
+          # Este é o passo que estava a faltar
+          dotnet test --configuration Release --no-build `
+            --collect:"XPlat Code Coverage" `
+            --results-directory ./TestResults `
+            -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover
+
+          # 4. Finalizar análise
           ${{ runner.temp }}\scanner\dotnet-sonarscanner end /d:sonar.token="$env:SONAR_TOKEN"
