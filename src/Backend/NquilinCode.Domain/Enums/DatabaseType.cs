@@ -4,6 +4,5 @@ public enum DatabaseType
 {
     Postgres,
     SqlServer,
-    MySql,
     InMemory
 }

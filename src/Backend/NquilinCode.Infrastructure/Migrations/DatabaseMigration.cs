@@ -18,9 +18,6 @@ public static class DatabaseMigration
             case DatabaseType.Postgres:
                 EnsureDatabaseCreated_Postgres(connectionString);
                 break;
-            case DatabaseType.MySql:
-                EnsureDatabaseCreated_MySql(connectionString);
-                break;
             case DatabaseType.SqlServer:
                 EnsureDatabaseCreated_SqlServer(connectionString);
                 break;
@@ -51,35 +48,6 @@ public static class DatabaseMigration
             dbConnection.Execute($"CREATE DATABASE {databaseName}");
         }
     }
-
-    
-    private static void EnsureDatabaseCreated_MySql(string connectionString)
-    {
-        // var builder = new MySqlConnectionStringBuilder(connectionString);
-        // var databaseName = builder.Database;
-        //
-        // // Forçar ligação à database correta
-        // builder.Database = "information_schema";
-        //
-        // using var connection = new MySqlConnection(builder.ConnectionString);
-        // connection.Open();
-        //
-        // var exists = connection.ExecuteScalar<bool>(
-        //     """
-        //     SELECT 1
-        //     FROM information_schema.schemata
-        //     WHERE schema_name = @name
-        //     """,
-        //     new { name = databaseName }
-        // );
-        //
-        // if (!exists)
-        // {
-        //     // MySQL usa backticks para identificadores
-        //     connection.Execute($"CREATE DATABASE `{databaseName}`");
-        // }
-    }
-
     
     private static void EnsureDatabaseCreated_SqlServer(string connectionString)
     {

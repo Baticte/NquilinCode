@@ -21,7 +21,6 @@ public static class ConfigurationExtension
                 return databaseType switch
                 {
                     Domain.Enums.DatabaseType.Postgres => configuration.GetConnectionString("Postgres")!,
-                    Domain.Enums.DatabaseType.MySql => configuration.GetConnectionString("MySql")!,
                     _ => configuration.GetConnectionString("SqlServer")!
                 };
             }

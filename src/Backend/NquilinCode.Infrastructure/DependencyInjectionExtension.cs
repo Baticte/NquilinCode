@@ -39,16 +39,6 @@ public static class DependencyInjectionExtension
         services.AddDbContext<NquilinCodeDbContext>(options =>
             options.UseSqlServer(connectionString));
     }
-    
-    private static void AddDbContextMySql(IServiceCollection services, IConfiguration configuration)
-    {
-        var connectionString = configuration.ConnectionString();
-        
-        //var serverVersion = new MySqlServerVersion(new Version(8, 0, 43));
-    
-        // services.AddDbContext<NquilinCodeDbContext>(options =>
-        //     options.UseMySql(connectionString, serverVersion));
-    }
 
     private static void AddDbContextPostgres(IServiceCollection services, IConfiguration configuration)
     {
@@ -75,18 +65,6 @@ public static class DependencyInjectionExtension
                 .ScanIn(Assembly.Load("NquilinCode.Infrastructure")).For.All();
         });
     }
-    
-    private static void AddFluentMigratorMySql(IServiceCollection services, IConfiguration configuration)
-    {
-        var connectionString = configuration.ConnectionString();
-        services.AddFluentMigratorCore().ConfigureRunner(options =>
-        {
-            options
-                .AddMySql8()
-                .WithGlobalConnectionString(connectionString)
-                .ScanIn(Assembly.Load("NquilinCode.Infrastructure")).For.All();
-        });
-    } 
     
     private static void AddFluentMigratorPostgres(IServiceCollection services, IConfiguration configuration)
     {
