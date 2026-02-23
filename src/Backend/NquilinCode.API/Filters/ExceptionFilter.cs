@@ -31,7 +31,7 @@ public class ExceptionFilter : IExceptionFilter
                 break;
             case InvalidLoginException:
                 context.HttpContext.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
-                context.Result = new UnauthorizedObjectResult(context.Exception.Message);
+                context.Result = new UnauthorizedObjectResult(new ResponseErrorJson(new List<string> { context.Exception.Message }));
                 break;
         }
     }

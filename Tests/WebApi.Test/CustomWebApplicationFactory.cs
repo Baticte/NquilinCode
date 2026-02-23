@@ -1,3 +1,4 @@
+using CommonTestUtilities.Entities;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
@@ -8,24 +9,44 @@ namespace WebApi.Test;
 
 public class CustomWebApplicationFactory : WebApplicationFactory<Program>
 {
+    private NquilinCode.Domain.Entities.User _user = default!;
+    private string _password = string.Empty;
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
         builder.UseEnvironment("Test")
             .ConfigureServices(services =>
             {
-                var descriptor =
-                    services.SingleOrDefault(d => d.ServiceType == typeof(DbContextOptions<NquilinCodeDbContext>));
+                var descriptor = services
+                    .SingleOrDefault(d => d.ServiceType == typeof(DbContextOptions<NquilinCodeDbContext>));
 
                 if (descriptor != null)
                     services.Remove(descriptor);
 
-                var provider = services.AddEntityFrameworkInMemoryDatabase().BuildServiceProvider();
-                
                 services.AddDbContext<NquilinCodeDbContext>(options =>
                 {
-                    options.UseInMemoryDatabase(Guid.NewGuid().ToString());
-                    options.UseInternalServiceProvider(provider);
+                    options.UseInMemoryDatabase("TestDatabase");
                 });
+
+                var serviceProvider = services.BuildServiceProvider();
+
+                using var scope = serviceProvider.CreateScope();
+                var dbContext = scope.ServiceProvider.GetRequiredService<NquilinCodeDbContext>();
+
+                dbContext.Database.EnsureCreated();
+
+                StartDatabase(dbContext);
             });
+    }
+    
+    public string GetEmail() => _user.Email;
+    public string GetPassword() => _password;
+    public string GetName() => _user.Name;
+    
+    private void StartDatabase(NquilinCodeDbContext dbContext)
+    {
+        (_user, _password) = UserBuilder.Build();
+        
+        dbContext.Users.Add(_user);
+        dbContext.SaveChanges();
     }
 }

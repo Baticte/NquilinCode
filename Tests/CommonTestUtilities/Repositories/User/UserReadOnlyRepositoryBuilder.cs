@@ -19,4 +19,10 @@ public class UserReadOnlyRepositoryBuilder
         _repository.Setup(r => r.ExistActiveUserWithEmailAsync(email, CancellationToken.None))
             .ReturnsAsync(true);
     }
+    
+    public void GetByEmailAsync(NquilinCode.Domain.Entities.User user)
+    {
+        _repository.Setup(r => r.GetByEmailAsync(user.Email, CancellationToken.None))
+            .ReturnsAsync(user);
+    }
 }

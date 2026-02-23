@@ -4,12 +4,7 @@ using NquilinCode.Application.Services.Cryptography;
 
 namespace CommonTestUtilities.Cryptography;
 
-public class PasswordHasherBuilder
+public static class PasswordHasherBuilder
 {
-    public static IPasswordHasher Build()
-    {
-        var mock = new Mock<IPasswordHasher>();
-
-        return mock.Object;
-    }
+    public static IPasswordHasher Build() => new PasswordHasher();
 }

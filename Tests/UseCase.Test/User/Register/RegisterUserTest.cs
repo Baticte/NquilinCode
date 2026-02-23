@@ -4,6 +4,7 @@ using CommonTestUtilities.Repositories.User;
 using CommonTestUtilities.Requests.User;
 using CommonTestUtilities.Validators;
 using NquilinCode.Application.UseCases.User.Register;
+using NquilinCode.Communication.Requests;
 using NquilinCode.Exceptions.BaseException;
 using NquilinCode.Exceptions.Resources;
 using Shouldly;
@@ -57,7 +58,7 @@ public class RegisterUserTest
 
     private static RegisterUser CreateUseCase(string? email = null)
     {
-        var validator = ValidatorRegisterUserBuilder.Build();
+        var validator = ValidatorBuilder.Build<RegisterUserValidator, RequestRegisterUserJson>();
         var writeOnlyRepository = UserWriteOnlyRepositoryBuilder.Build();
         var readOnlyRepositoryBuilder = new UserReadOnlyRepositoryBuilder();
         var passwordHasher = PasswordHasherBuilder.Build();
