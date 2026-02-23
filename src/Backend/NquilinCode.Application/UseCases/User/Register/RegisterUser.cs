@@ -6,6 +6,7 @@ using NquilinCode.Communication.Requests;
 using NquilinCode.Communication.Responses;
 using NquilinCode.Domain.Repositories;
 using NquilinCode.Domain.Repositories.User;
+using NquilinCode.Domain.Security.Tokens;
 using NquilinCode.Exceptions.BaseException;
 using NquilinCode.Exceptions.Resources;
 using NquilinCode.Kernel.Validators;
@@ -17,15 +18,18 @@ public class RegisterUser : IRegisterUser
     private readonly IValidator<RequestRegisterUserJson> _validator;
     private readonly IUserWriteOnlyRepository _writeOnlyRepository;
     private readonly IUserReadOnlyRepository _readOnlyRepository;
+    private readonly IAccessTokenGenerator _accessTokenGenerator;
     private readonly IPasswordHasher _passwordHasher;
     private readonly IUnitOfWork _unitOfWork;
 
-    public RegisterUser(IValidator<RequestRegisterUserJson> validator, IUserWriteOnlyRepository writeOnlyRepository, IUserReadOnlyRepository readOnlyRepository,
+    public RegisterUser(IValidator<RequestRegisterUserJson> validator, IUserWriteOnlyRepository writeOnlyRepository,
+        IUserReadOnlyRepository readOnlyRepository, IAccessTokenGenerator accessTokenGenerator,
         IPasswordHasher passwordHasher, IUnitOfWork unitOfWork)
     {
         _validator = validator;
         _writeOnlyRepository = writeOnlyRepository;
         _readOnlyRepository = readOnlyRepository;
+        _accessTokenGenerator = accessTokenGenerator;
         _passwordHasher = passwordHasher;
         _unitOfWork = unitOfWork;
     }
@@ -41,18 +45,25 @@ public class RegisterUser : IRegisterUser
         await _writeOnlyRepository.AddAsync(user, cancellationToken);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
+        var tokenResult = _accessTokenGenerator.GenerateAccessToken(user.Id);
+
         return new ResponseRegisterUserJson
         {
-            Name = user.Name
+            Name = user.Name,
+            Tokens = new ResponseTokensJson
+            {
+                AccessToken = tokenResult.Token,
+                AccessTokenExpiration = tokenResult.ExpirationDate
+            }
         };
     }
-    
+
     private async Task Validate(RequestRegisterUserJson request, CancellationToken cancellationToken)
     {
         var validationResult = await _validator.ValidateAsync(request, cancellationToken);
-        
+
         var result = ValidationResult.Success();
-        
+
         if (!validationResult.IsValid)
         {
             result.Merge(ValidationResult.Failure(validationResult.Errors.Select(e => e.ErrorMessage)));

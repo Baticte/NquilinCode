@@ -6,9 +6,11 @@ using Microsoft.Extensions.DependencyInjection;
 using NquilinCode.Domain.Enums;
 using NquilinCode.Domain.Repositories;
 using NquilinCode.Domain.Repositories.User;
+using NquilinCode.Domain.Security.Tokens;
 using NquilinCode.Infrastructure.DataAccess;
 using NquilinCode.Infrastructure.DataAccess.Repositories;
 using NquilinCode.Infrastructure.Extensions;
+using NquilinCode.Infrastructure.Security.Tokens.Access.Generator;
 
 namespace NquilinCode.Infrastructure;
 
@@ -30,6 +32,8 @@ public static class DependencyInjectionExtension
         }
         
         AddRepositories(services);
+
+        AddTokens(services, configuration);
     }
 
     private static void AddDbContextSqlServer(IServiceCollection services, IConfiguration configuration)
@@ -76,5 +80,15 @@ public static class DependencyInjectionExtension
                 .WithGlobalConnectionString(connectionString)
                 .ScanIn(Assembly.Load("NquilinCode.Infrastructure")).For.All();
         });
+    }
+
+    private static void AddTokens(IServiceCollection services, IConfiguration configuration)
+    {
+        var expirationTimeMinutes = configuration.GetValue<uint>("Settings:Jwt:ExpirationTimeMinutes");
+
+        var signingKey = configuration.GetValue<string>("Settings:Jwt:SigningKey");
+
+        services.AddScoped<IAccessTokenGenerator>(_ =>
+            new JwtAccessTokenGenerator(expirationTimeMinutes, signingKey!));
     }
 }

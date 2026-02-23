@@ -28,6 +28,8 @@ public class RegisterUserTest : NquilinCodeClassFixture
 
         var responseData = await JsonDocument.ParseAsync(responseBody, cancellationToken: TestContext.Current.CancellationToken);
         responseData.RootElement.GetProperty("name").GetString().ShouldNotBeNull().ShouldBe(request.Name);
+        responseData.RootElement.GetProperty("tokens").GetProperty("accessToken").GetString().ShouldNotBeNullOrWhiteSpace();
+        responseData.RootElement.GetProperty("tokens").GetProperty("accessTokenExpiration").GetString().ShouldNotBeNullOrWhiteSpace();
     }
     
     [Theory, ClassData(typeof(CultureInlineDataTest))]
@@ -36,7 +38,7 @@ public class RegisterUserTest : NquilinCodeClassFixture
         var request = RequestRegisterUserJsonBuilder.Build();
         request.Name = string.Empty;
         
-        var response = await DoPostAsync("/user", request, culture, cancellationToken: TestContext.Current.CancellationToken);
+        var response = await DoPostAsync(_method, request, culture, cancellationToken: TestContext.Current.CancellationToken);
         response.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
         
         await using var responseBody = await response.Content.ReadAsStreamAsync(TestContext.Current.CancellationToken);

@@ -4,6 +4,7 @@ using NquilinCode.Application.Abstractions.UseCases.User;
 using NquilinCode.Communication.Requests;
 using NquilinCode.Communication.Responses;
 using NquilinCode.Domain.Repositories.User;
+using NquilinCode.Domain.Security.Tokens;
 using NquilinCode.Exceptions.BaseException;
 
 namespace NquilinCode.Application.UseCases.User.Login.DoLogin;
@@ -12,15 +13,18 @@ public class Login : ILogin
 {
     private readonly IValidator<RequestLoginJson> _validator;
     private readonly IUserReadOnlyRepository _readOnlyRepository;
+    private readonly IAccessTokenGenerator _accessTokenGenerator;
     private readonly IPasswordHasher _passwordHasher;
 
-    public Login(IValidator<RequestLoginJson> validator, IUserReadOnlyRepository readOnlyRepository, IPasswordHasher passwordHasher)
+    public Login(IValidator<RequestLoginJson> validator, IUserReadOnlyRepository readOnlyRepository,
+        IAccessTokenGenerator accessTokenGenerator, IPasswordHasher passwordHasher)
     {
         _validator = validator;
         _readOnlyRepository = readOnlyRepository;
+        _accessTokenGenerator = accessTokenGenerator;
         _passwordHasher = passwordHasher;
     }
-    
+
     public async Task<ResponseRegisterUserJson> Execute(RequestLoginJson request, CancellationToken cancellationToken)
     {
         await Validate(request, cancellationToken);
@@ -30,17 +34,24 @@ public class Login : ILogin
 
         var result = _passwordHasher.VerifyPassword(request.Password, user.Password);
         if (!result) throw new InvalidLoginException();
-        
+
+        var tokenResult = _accessTokenGenerator.GenerateAccessToken(user.Id);
+
         return new ResponseRegisterUserJson
         {
-            Name = user.Name
+            Name = user.Name,
+            Tokens = new ResponseTokensJson
+            {
+                AccessToken = tokenResult.Token,
+                AccessTokenExpiration = tokenResult.ExpirationDate
+            }
         };
     }
 
     private async Task Validate(RequestLoginJson request, CancellationToken cancellationToken)
     {
         var result = await _validator.ValidateAsync(request, cancellationToken);
-        
+
         if (!result.IsValid)
         {
             var errorMessages = result.Errors.Select(e => e.ErrorMessage).ToList();

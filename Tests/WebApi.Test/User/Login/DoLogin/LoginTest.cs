@@ -39,6 +39,8 @@ public class LoginTest : NquilinCodeClassFixture
 
         var responseData = await JsonDocument.ParseAsync(responseBody, cancellationToken: TestContext.Current.CancellationToken);
         responseData.RootElement.GetProperty("name").GetString().ShouldNotBeNull().ShouldBe(_name);
+        responseData.RootElement.GetProperty("tokens").GetProperty("accessToken").GetString().ShouldNotBeNullOrWhiteSpace();
+        responseData.RootElement.GetProperty("tokens").GetProperty("accessTokenExpiration").GetString().ShouldNotBeNullOrWhiteSpace();
     }
     
     [Theory]

@@ -2,6 +2,7 @@ using CommonTestUtilities.Cryptography;
 using CommonTestUtilities.Repositories;
 using CommonTestUtilities.Repositories.User;
 using CommonTestUtilities.Requests.User;
+using CommonTestUtilities.Tokens;
 using CommonTestUtilities.Validators;
 using NquilinCode.Application.UseCases.User.Register;
 using NquilinCode.Communication.Requests;
@@ -24,6 +25,7 @@ public class RegisterUserTest
 
         result.ShouldNotBeNull();
         result.Name.ShouldBe(request.Name);
+        result.Tokens.AccessToken.ShouldNotBeNullOrWhiteSpace();
     }
 
     [Fact]
@@ -40,7 +42,7 @@ public class RegisterUserTest
 
         singleError.ShouldBe(ValidationMessages.EXISTS_USER);
     }
-    
+
     [Fact]
     public async Task Error_Name_Empty()
     {
@@ -61,6 +63,7 @@ public class RegisterUserTest
         var validator = ValidatorBuilder.Build<RegisterUserValidator, RequestRegisterUserJson>();
         var writeOnlyRepository = UserWriteOnlyRepositoryBuilder.Build();
         var readOnlyRepositoryBuilder = new UserReadOnlyRepositoryBuilder();
+        var jwtAccessTokenBuilder = JwtAccessTokenGeneratorBuilder.Build();
         var passwordHasher = PasswordHasherBuilder.Build();
         var unitOfWork = UnitOfWorkBuilder.Build();
 
@@ -68,7 +71,8 @@ public class RegisterUserTest
         {
             readOnlyRepositoryBuilder.ExistActiveUserWithEmail(email);
         }
-        
-        return new RegisterUser(validator, writeOnlyRepository, readOnlyRepositoryBuilder.Build(), passwordHasher, unitOfWork);
+
+        return new RegisterUser(validator, writeOnlyRepository, readOnlyRepositoryBuilder.Build(),
+            jwtAccessTokenBuilder, passwordHasher, unitOfWork);
     }
 }
