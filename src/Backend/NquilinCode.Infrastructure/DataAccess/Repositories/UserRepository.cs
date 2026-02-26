@@ -37,4 +37,17 @@ public class UserRepository : IUserReadOnlyRepository, IUserWriteOnlyRepository
             .AsNoTracking()
             .FirstOrDefaultAsync(u => u.Active && u.Email == email, cancellationToken);
     }
+
+    public async Task<bool> ExistActiveUserWithIdentifier(Guid userIdentifier, CancellationToken cancellationToken)
+    {
+        return await _dbContext.Users
+            .AnyAsync(user => user.Active && user.Id.Equals(userIdentifier), cancellationToken);
+    }
+
+    public async Task<User> GetByUserWithIdentifier(Guid userIdentifier, CancellationToken cancellationToken)
+    {
+        return await _dbContext.Users
+            .AsNoTracking()
+            .FirstAsync(user => user.Active && user.Id.Equals(userIdentifier), cancellationToken);
+    }
 }

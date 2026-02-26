@@ -42,4 +42,10 @@
     <data name="INVALID_EMAIL_OR_PASSWORD" xml:space="preserve">
         <value>E-mail ou palavra-passe inválidos.</value>
     </data>
+    <data name="NO_TOKEN" xml:space="preserve">
+        <value>O cabeçalho de autorização não foi enviado. Por favor, forneça um token de autenticação válido.</value>
+    </data>
+    <data name="USER_WITHOUT_PERMISSION_TO_ACCESS_RESOURCE" xml:space="preserve">
+        <value>Não tem permissão para aceder a este recurso. Se considerar que se trata de um erro, contacte o administrador do sistema.</value>
+    </data>
 </root>

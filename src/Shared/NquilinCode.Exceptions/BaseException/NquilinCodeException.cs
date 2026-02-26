@@ -1,6 +1,6 @@
 namespace NquilinCode.Exceptions.BaseException;
 
-public abstract class NquilinCodeException : Exception
+public class NquilinCodeException : Exception
 {
-    protected NquilinCodeException(string message) : base(message) { }
+    public NquilinCodeException(string message) : base(message) { }
 }

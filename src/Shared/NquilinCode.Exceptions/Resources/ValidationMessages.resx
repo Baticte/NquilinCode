@@ -42,4 +42,10 @@
     <data name="INVALID_EMAIL_OR_PASSWORD" xml:space="preserve">
         <value>Invalid email or password.</value>
     </data>
+    <data name="NO_TOKEN" xml:space="preserve">
+        <value>Authorization header is missing. Please provide a valid authentication token.</value>
+    </data>
+    <data name="USER_WITHOUT_PERMISSION_TO_ACCESS_RESOURCE" xml:space="preserve">
+        <value>You do not have permission to access this resource. If you believe this is a mistake, please contact your system administrator.</value>
+    </data>
 </root>

@@ -105,6 +105,15 @@ namespace NquilinCode.Exceptions.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Authorization header is missing. Please provide a valid authentication token..
+        /// </summary>
+        public static string NO_TOKEN {
+            get {
+                return ResourceManager.GetString("NO_TOKEN", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Password must be at least {0} characters long..
         /// </summary>
         public static string PASSWORD_MIN_LENGTH {
@@ -128,6 +137,15 @@ namespace NquilinCode.Exceptions.Resources {
         public static string UNKNOWN_ERROR {
             get {
                 return ResourceManager.GetString("UNKNOWN_ERROR", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You do not have permission to access this resource. If you believe this is a mistake, please contact your system administrator..
+        /// </summary>
+        public static string USER_WITHOUT_PERMISSION_TO_ACCESS_RESOURCE {
+            get {
+                return ResourceManager.GetString("USER_WITHOUT_PERMISSION_TO_ACCESS_RESOURCE", resourceCulture);
             }
         }
     }

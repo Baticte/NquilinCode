@@ -11,6 +11,7 @@ using NquilinCode.Infrastructure.DataAccess;
 using NquilinCode.Infrastructure.DataAccess.Repositories;
 using NquilinCode.Infrastructure.Extensions;
 using NquilinCode.Infrastructure.Security.Tokens.Access.Generator;
+using NquilinCode.Infrastructure.Security.Tokens.Access.Validator;
 
 namespace NquilinCode.Infrastructure;
 
@@ -90,5 +91,8 @@ public static class DependencyInjectionExtension
 
         services.AddScoped<IAccessTokenGenerator>(_ =>
             new JwtAccessTokenGenerator(expirationTimeMinutes, signingKey!));
+
+        services.AddScoped<IAccessTokenValidator>(option =>
+            new JwtAccessTokenValidator(signingKey!));
     }
 }

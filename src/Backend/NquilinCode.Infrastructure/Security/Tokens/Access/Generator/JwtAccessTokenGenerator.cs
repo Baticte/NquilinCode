@@ -1,12 +1,11 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using NquilinCode.Domain.Security.Tokens;
 
 namespace NquilinCode.Infrastructure.Security.Tokens.Access.Generator;
 
-public class JwtAccessTokenGenerator : IAccessTokenGenerator
+public class JwtAccessTokenGenerator : JwtAccessTokenHandler, IAccessTokenGenerator
 {
     private readonly uint _accessTokenExpirationMinutes;
     private readonly string _signingKey;
@@ -16,7 +15,7 @@ public class JwtAccessTokenGenerator : IAccessTokenGenerator
         _accessTokenExpirationMinutes = accessTokenExpirationMinutes;
         _signingKey = signingKey;
     }
-    
+
     public AccessTokenResult GenerateAccessToken(Guid userId)
     {
         var expirationDate = DateTime.UtcNow.AddMinutes(_accessTokenExpirationMinutes);
@@ -30,10 +29,14 @@ public class JwtAccessTokenGenerator : IAccessTokenGenerator
         {
             Subject = new ClaimsIdentity(claims),
             NotBefore = DateTime.UtcNow,
-            IssuedAt= DateTime.UtcNow,
+            IssuedAt = DateTime.UtcNow,
             Expires = expirationDate,
+            
+            Issuer = "NquilinCode.API",
+            Audience = "NquilinCode.API",
+            
             SigningCredentials = new SigningCredentials(
-                SecurityKey(),
+                SecurityKey(_signingKey),
                 SecurityAlgorithms.HmacSha256Signature)
         };
 
@@ -46,12 +49,5 @@ public class JwtAccessTokenGenerator : IAccessTokenGenerator
             Token = tokenHandler.WriteToken(securityToken),
             ExpirationDate = expirationDate
         };
-
-    }
-
-    private SymmetricSecurityKey SecurityKey()
-    {
-        var bytes = Encoding.UTF8.GetBytes(_signingKey);
-        return new SymmetricSecurityKey(bytes);
     }
 }

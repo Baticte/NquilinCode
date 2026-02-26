@@ -105,6 +105,15 @@ namespace NquilinCode.Exceptions.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to L’en-tête d’autorisation est manquant. Veuillez fournir un jeton d’authentification valide..
+        /// </summary>
+        internal static string NO_TOKEN {
+            get {
+                return ResourceManager.GetString("NO_TOKEN", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Le mot de passe doit comporter au moins {0} caractères..
         /// </summary>
         internal static string PASSWORD_MIN_LENGTH {
@@ -128,6 +137,15 @@ namespace NquilinCode.Exceptions.Resources {
         internal static string UNKNOWN_ERROR {
             get {
                 return ResourceManager.GetString("UNKNOWN_ERROR", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Vous n&apos;avez pas l&apos;autorisation d&apos;accéder à cette ressource. Si vous pensez qu&apos;il s&apos;agit d&apos;une erreur, veuillez contacter votre administrateur système..
+        /// </summary>
+        internal static string USER_WITHOUT_PERMISSION_TO_ACCESS_RESOURCE {
+            get {
+                return ResourceManager.GetString("USER_WITHOUT_PERMISSION_TO_ACCESS_RESOURCE", resourceCulture);
             }
         }
     }

@@ -1,3 +1,4 @@
+using Microsoft.OpenApi;
 using NquilinCode.API.Converters;
 using NquilinCode.API.Filters;
 using NquilinCode.Application;
@@ -11,7 +12,26 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(options =>
+{
+    options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        Name = "Authorization",
+        Type = SecuritySchemeType.Http, // 'Http' is now heavily preferred over 'ApiKey' for JWTs
+        Scheme = "bearer",              
+        BearerFormat = "JWT",
+        In = ParameterLocation.Header,
+        Description = "Enter your valid token (you no longer need to type 'Bearer ' first).\n\nExample: \"12345eyJhbGci...\""
+    });
+
+    options.AddSecurityRequirement(document => new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecuritySchemeReference("Bearer", document),
+            new List<string>()
+        }
+    });
+});
 
 builder.Services.AddControllers(options => { options.Filters.Add<ExceptionFilter>(); })
     .AddJsonOptions(options => { options.JsonSerializerOptions.Converters.Add(new StringConverter()); });

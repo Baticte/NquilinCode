@@ -42,4 +42,10 @@
     <data name="INVALID_EMAIL_OR_PASSWORD" xml:space="preserve">
         <value>Adresse e-mail ou mot de passe invalide.</value>
     </data>
+    <data name="NO_TOKEN" xml:space="preserve">
+        <value>L’en-tête d’autorisation est manquant. Veuillez fournir un jeton d’authentification valide.</value>
+    </data>
+    <data name="USER_WITHOUT_PERMISSION_TO_ACCESS_RESOURCE" xml:space="preserve">
+        <value>Vous n'avez pas l'autorisation d'accéder à cette ressource. Si vous pensez qu'il s'agit d'une erreur, veuillez contacter votre administrateur système.</value>
+    </data>
 </root>

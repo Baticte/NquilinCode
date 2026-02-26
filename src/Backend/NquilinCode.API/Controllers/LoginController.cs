@@ -7,7 +7,6 @@ namespace NquilinCode.API.Controllers;
 
 public class LoginController : EntityBaseController
 {
-    
     [HttpPost]
     [ProducesResponseType(typeof(ResponseRegisterUserJson), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ResponseRegisterUserJson), StatusCodes.Status401Unauthorized)]
