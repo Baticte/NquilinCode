@@ -34,7 +34,6 @@ public class AuthenticateUserFilter : IAsyncAuthorizationFilter
                 context.Result =
                     new UnauthorizedObjectResult(
                         new ResponseErrorJson(ValidationMessages.USER_WITHOUT_PERMISSION_TO_ACCESS_RESOURCE));
-                return;
             }
         }
         catch (SecurityTokenExpiredException)
@@ -58,10 +57,10 @@ public class AuthenticateUserFilter : IAsyncAuthorizationFilter
 
     private static string TokenOnRequest(AuthorizationFilterContext context)
     {
-        var authentication = context.HttpContext.Request.Headers.Authorization.ToString();
+        var authorizationHeader  = context.HttpContext.Request.Headers.Authorization.ToString();
 
-        return !authentication.StartsWith("Bearer ", StringComparison.OrdinalIgnoreCase)
+        return !authorizationHeader .StartsWith("Bearer ", StringComparison.OrdinalIgnoreCase)
             ? throw new NquilinCodeException(ValidationMessages.NO_TOKEN)
-            : authentication["Bearer ".Length..].Trim();
+            : authorizationHeader ["Bearer ".Length..].Trim();
     }
 }

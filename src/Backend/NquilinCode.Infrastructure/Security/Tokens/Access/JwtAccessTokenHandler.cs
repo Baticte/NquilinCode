@@ -5,7 +5,7 @@ namespace NquilinCode.Infrastructure.Security.Tokens.Access;
 
 public abstract class JwtAccessTokenHandler
 {
-    protected SymmetricSecurityKey SecurityKey(string signingKey)
+    protected static SymmetricSecurityKey SecurityKey(string signingKey)
     {
         var bytes = Encoding.UTF8.GetBytes(signingKey);
         return new SymmetricSecurityKey(bytes);

@@ -1,8 +1,10 @@
 using Microsoft.OpenApi;
 using NquilinCode.API.Converters;
 using NquilinCode.API.Filters;
+using NquilinCode.API.Token;
 using NquilinCode.Application;
 using NquilinCode.Application.Services.Mapster;
+using NquilinCode.Domain.Security.Tokens;
 using NquilinCode.Infrastructure;
 using NquilinCode.Infrastructure.Extensions;
 using NquilinCode.Infrastructure.Migrations;
@@ -39,9 +41,13 @@ builder.Services.AddControllers(options => { options.Filters.Add<ExceptionFilter
 builder.Services.AddInfrastructureServices(builder.Configuration); // regista DbContext + Repositórios
 builder.Services.AddApplicationServices(); // regista serviços da camada Application
 
+builder.Services.AddScoped<ITokenProvider, HttpContextTokenValue>();
+
 MapsterConfiguration.Configure();
 
 builder.Services.AddRouting(options => options.LowercaseUrls = true);
+
+builder.Services.AddHttpContextAccessor();
 
 var app = builder.Build();
 

@@ -30,7 +30,7 @@ public class JwtAccessTokenValidator : JwtAccessTokenHandler, IAccessTokenValida
         var principal = tokenHandler.ValidateToken(token, validationParameters, out _);
 
         var userIdentifier = principal.Claims
-            .FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+            .FirstOrDefault(c => c.Type == ClaimTypes.Sid)?.Value;
 
         return string.IsNullOrWhiteSpace(userIdentifier)
             ? throw new SecurityTokenException("Invalid token: missing user identifier.")

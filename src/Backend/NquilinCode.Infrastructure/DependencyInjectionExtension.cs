@@ -7,11 +7,13 @@ using NquilinCode.Domain.Enums;
 using NquilinCode.Domain.Repositories;
 using NquilinCode.Domain.Repositories.User;
 using NquilinCode.Domain.Security.Tokens;
+using NquilinCode.Domain.Services.LoggedUser;
 using NquilinCode.Infrastructure.DataAccess;
 using NquilinCode.Infrastructure.DataAccess.Repositories;
 using NquilinCode.Infrastructure.Extensions;
 using NquilinCode.Infrastructure.Security.Tokens.Access.Generator;
 using NquilinCode.Infrastructure.Security.Tokens.Access.Validator;
+using NquilinCode.Infrastructure.Services.LoggedUser;
 
 namespace NquilinCode.Infrastructure;
 
@@ -35,6 +37,7 @@ public static class DependencyInjectionExtension
         AddRepositories(services);
 
         AddTokens(services, configuration);
+        AddLoggedUser(services);
     }
 
     private static void AddDbContextSqlServer(IServiceCollection services, IConfiguration configuration)
@@ -95,4 +98,6 @@ public static class DependencyInjectionExtension
         services.AddScoped<IAccessTokenValidator>(option =>
             new JwtAccessTokenValidator(signingKey!));
     }
+
+    private static void AddLoggedUser(IServiceCollection services) => services.AddScoped<ILoggedUser, LoggedUser>();
 }

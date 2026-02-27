@@ -22,7 +22,7 @@ public class JwtAccessTokenGenerator : JwtAccessTokenHandler, IAccessTokenGenera
 
         var claims = new List<Claim>
         {
-            new Claim(ClaimTypes.NameIdentifier, userId.ToString())
+            new Claim(ClaimTypes.Sid, userId.ToString())
         };
 
         var tokenDescriptor = new SecurityTokenDescriptor
