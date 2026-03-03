@@ -3,7 +3,7 @@ using NquilinCode.Infrastructure.Security.Tokens.Access.Generator;
 
 namespace CommonTestUtilities.Tokens;
 
-public class JwtAccessTokenGeneratorBuilder
+public static class JwtAccessTokenGeneratorBuilder
 {
     public static IAccessTokenGenerator Build() => new JwtAccessTokenGenerator(accessTokenExpirationMinutes: 5,
         signingKey: "123456789123456789123456789123456");

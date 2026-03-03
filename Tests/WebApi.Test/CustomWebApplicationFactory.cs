@@ -37,7 +37,8 @@ public class CustomWebApplicationFactory : WebApplicationFactory<Program>
                 StartDatabase(dbContext);
             });
     }
-    
+
+    public Guid GetId() => _user.Id;
     public string GetEmail() => _user.Email;
     public string GetPassword() => _password;
     public string GetName() => _user.Name;

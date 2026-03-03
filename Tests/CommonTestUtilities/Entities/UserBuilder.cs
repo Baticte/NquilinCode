@@ -4,7 +4,7 @@ using NquilinCode.Domain.Entities;
 
 namespace CommonTestUtilities.Entities;
 
-public class UserBuilder
+public static class UserBuilder
 {
     public static (User user, string password) Build()
     {
