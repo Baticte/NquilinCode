@@ -21,10 +21,10 @@ public class GetUserProfileTest
         result.Email.ShouldBe(user.Email);
     }
 
-    private static GetUserProfileUseCase CreateUseCase(NquilinCode.Domain.Entities.User user)
+    private static GetUserProfile CreateUseCase(NquilinCode.Domain.Entities.User user)
     {
         var loggedUser = LoggedUserBuilder.Build(user);
 
-        return new GetUserProfileUseCase(loggedUser);
+        return new GetUserProfile(loggedUser);
     }
 }

@@ -6,6 +6,7 @@ using NquilinCode.Application.Services.Cryptography;
 using NquilinCode.Application.UseCases.User.Login.DoLogin;
 using NquilinCode.Application.UseCases.User.Profile;
 using NquilinCode.Application.UseCases.User.Register;
+using NquilinCode.Application.UseCases.User.Update;
 
 namespace NquilinCode.Application;
 
@@ -22,7 +23,8 @@ public static class DependencyInjectionExtension
     {
         services.AddScoped<IRegisterUser, RegisterUser>();
         services.AddScoped<ILogin, Login>();
-        services.AddScoped<IGetUserProfileUseCase, GetUserProfileUseCase>();
+        services.AddScoped<IGetUserProfile, GetUserProfile>();
+        services.AddScoped<IUpdateUser, UpdateUser>();
     }
 
     private static void AddPasswordHasher(IServiceCollection services)

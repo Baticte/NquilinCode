@@ -6,7 +6,7 @@ namespace NquilinCode.Application.UseCases.User.Register;
 
 public class RegisterUserValidator : AbstractValidator<RequestRegisterUserJson>
 {
-    public  RegisterUserValidator()
+    public RegisterUserValidator()
     {
         RuleFor(x => x.Name)
             .NotNull().NotEmpty()

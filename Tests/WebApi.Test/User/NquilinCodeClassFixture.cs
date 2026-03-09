@@ -19,7 +19,7 @@ public class NquilinCodeClassFixture : IClassFixture<CustomWebApplicationFactory
         ChangeRequiredCulture(culture);
         AuthorizeRequest(token);
 
-        return await _httpClient.GetAsync(method);
+        return await _httpClient.GetAsync(method, cancellationToken);
     }
 
     private void ChangeRequiredCulture(string culture)

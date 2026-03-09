@@ -2,7 +2,7 @@ using NquilinCode.Communication.Responses;
 
 namespace NquilinCode.Application.Abstractions.UseCases.User;
 
-public interface IGetUserProfileUseCase
+public interface IGetUserProfile
 {
     public Task<ResponseUserProfileJson> Execute(CancellationToken cancellationToken);
 }

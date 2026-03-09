@@ -22,11 +22,22 @@ public class UserController : EntityBaseController
     [HttpGet]
     [ProducesResponseType(typeof(ResponseUserProfileJson), StatusCodes.Status200OK)]
     [AuthenticateUser]
-    public async Task<IActionResult> GetUserProfile([FromServices] IGetUserProfileUseCase useCase,
+    public async Task<IActionResult> GetUserProfile([FromServices] IGetUserProfile useCase,
         CancellationToken cancellationToken)
     {
         var result = await useCase.Execute(cancellationToken);
 
         return Ok(result);
+    }
+
+    [HttpPut]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(typeof(ResponseErrorJson), StatusCodes.Status400BadRequest)]
+    [AuthenticateUser]
+    public async Task<IActionResult> Update([FromServices] IUpdateUser useCase,
+        [FromBody] RequestUpdateUserJson request, CancellationToken cancellationToken)
+    {
+        await useCase.Execute(request, cancellationToken);
+        return NoContent();
     }
 }

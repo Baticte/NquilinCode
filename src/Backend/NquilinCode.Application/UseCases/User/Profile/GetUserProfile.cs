@@ -5,11 +5,11 @@ using NquilinCode.Domain.Services.LoggedUser;
 
 namespace NquilinCode.Application.UseCases.User.Profile;
 
-public class GetUserProfileUseCase : IGetUserProfileUseCase
+public class GetUserProfile : IGetUserProfile
 {
     private readonly ILoggedUser _loggedUser;
 
-    public GetUserProfileUseCase(ILoggedUser loggedUser)
+    public GetUserProfile(ILoggedUser loggedUser)
     {
         _loggedUser = loggedUser;
     }

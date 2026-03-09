@@ -4,7 +4,7 @@ using NquilinCode.Domain.Repositories.User;
 
 namespace NquilinCode.Infrastructure.DataAccess.Repositories;
 
-public class UserRepository : IUserReadOnlyRepository, IUserWriteOnlyRepository
+public class UserRepository : IUserReadOnlyRepository, IUserWriteOnlyRepository, IUserUpdateOnlyRepository
 {
     private readonly NquilinCodeDbContext _dbContext;
 
@@ -19,7 +19,7 @@ public class UserRepository : IUserReadOnlyRepository, IUserWriteOnlyRepository
     {
         return await _dbContext.Users
             .AsNoTracking()
-            .AnyAsync(x => x.Email.Equals(email) && x.Active, cancellationToken);
+            .AnyAsync(x => x.Email == email && x.Active, cancellationToken);
     }
 
     public async Task<User?> GetByEmailAndPasswordAsync(string email, string password,
@@ -27,7 +27,7 @@ public class UserRepository : IUserReadOnlyRepository, IUserWriteOnlyRepository
     {
         return await _dbContext.Users
             .AsNoTracking()
-            .FirstOrDefaultAsync(user => user.Active && user.Email.Equals(email) && user.Password.Equals(password),
+            .FirstOrDefaultAsync(user => user.Active && user.Email == email && user.Password.Equals(password),
                 cancellationToken);
     }
 
@@ -41,13 +41,19 @@ public class UserRepository : IUserReadOnlyRepository, IUserWriteOnlyRepository
     public async Task<bool> ExistActiveUserWithIdentifier(Guid userIdentifier, CancellationToken cancellationToken)
     {
         return await _dbContext.Users
-            .AnyAsync(user => user.Active && user.Id.Equals(userIdentifier), cancellationToken);
+            .AnyAsync(user => user.Active && user.Id == userIdentifier, cancellationToken);
     }
 
     public async Task<User> GetByUserWithIdentifier(Guid userIdentifier, CancellationToken cancellationToken)
     {
         return await _dbContext.Users
             .AsNoTracking()
-            .FirstAsync(user => user.Active && user.Id.Equals(userIdentifier), cancellationToken);
+            .FirstAsync(user => user.Active && user.Id == userIdentifier, cancellationToken);
+    }
+
+    public async Task<User?> GetByIdAsync(Guid id, CancellationToken cancellationToken)
+    {
+        return await _dbContext.Users
+            .FirstOrDefaultAsync(user => user.Active && user.Id == id, cancellationToken);
     }
 }
