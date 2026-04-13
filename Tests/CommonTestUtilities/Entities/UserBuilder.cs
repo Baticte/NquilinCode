@@ -1,6 +1,7 @@
 using Bogus;
 using CommonTestUtilities.Cryptography;
 using NquilinCode.Domain.Entities;
+using NquilinCode.Domain.ValueObjects;
 
 namespace CommonTestUtilities.Entities;
 
@@ -8,16 +9,17 @@ public static class UserBuilder
 {
     public static (User user, string password) Build()
     {
-        var passwordEncripter = PasswordHasherBuilder.Build();
-        
-        var password = new Faker().Internet.Password();
-        
-        var user = new Faker<User>()
-            .RuleFor(u => u.Id, (f, u) => Guid.NewGuid())
-            .RuleFor(u => u.Name, f => f.Person.FullName)
-            .RuleFor(u => u.Email, f => f.Person.Email)
-            .RuleFor(u => u.Password, f => passwordEncripter.HashPassword(password))
-            .Generate();
+        var faker = new Faker();
+        var passwordEncrypter = PasswordHasherBuilder.Build();
+
+        var password = faker.Internet.Password();
+        var passwordHash = passwordEncrypter.HashPassword(new Password(password));
+
+        var user = User.Create(
+            faker.Person.FullName,
+            new Email(faker.Person.Email),
+            new Password(passwordHash)
+        );
         
         return (user, password);
     }

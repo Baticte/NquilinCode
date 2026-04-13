@@ -5,20 +5,21 @@ using CommonTestUtilities.Requests.User;
 using NquilinCode.Communication.Requests;
 using NquilinCode.Exceptions.Resources;
 using Shouldly;
+using WebApi.Test.Constants;
 using WebApi.Test.InlineData;
 
 namespace WebApi.Test.User.Login.DoLogin;
 
 public class LoginTest : NquilinCodeClassFixture
 {
-    private readonly string _method = "/login";
+    private const string Method = ApiRoutes.Auth.Login;
     private readonly string _email;
     private readonly string _password;
     private readonly string _name;
     
     public LoginTest(CustomWebApplicationFactory factory) : base(factory)
     {
-        _email = factory.GetEmail();
+        _email = factory.GetEmail().Value;
         _password = factory.GetPassword();
         _name = factory.GetName();
     }
@@ -32,7 +33,7 @@ public class LoginTest : NquilinCodeClassFixture
             Password = _password
         };
         
-        var response = await DoPostAsync(_method, request, cancellationToken: TestContext.Current.CancellationToken);
+        var response = await DoPostAsync(Method, request, cancellationToken: TestContext.Current.CancellationToken);
         response.StatusCode.ShouldBe(HttpStatusCode.OK);
         
         await using var responseBody = await response.Content.ReadAsStreamAsync(TestContext.Current.CancellationToken);
@@ -49,7 +50,7 @@ public class LoginTest : NquilinCodeClassFixture
     {
         var request = RequestLoginJsonBuilder.Build();
         
-        var response = await DoPostAsync(_method, request, culture, cancellationToken: TestContext.Current.CancellationToken);
+        var response = await DoPostAsync(Method, request, culture, cancellationToken: TestContext.Current.CancellationToken);
         response.StatusCode.ShouldBe(HttpStatusCode.Unauthorized);
         
         await using var responseBody = await response.Content.ReadAsStreamAsync(TestContext.Current.CancellationToken);

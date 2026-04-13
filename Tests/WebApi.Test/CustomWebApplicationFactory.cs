@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using NquilinCode.Domain.ValueObjects;
 using NquilinCode.Infrastructure.DataAccess;
 
 namespace WebApi.Test;
@@ -39,7 +40,7 @@ public class CustomWebApplicationFactory : WebApplicationFactory<Program>
     }
 
     public Guid GetId() => _user.Id;
-    public string GetEmail() => _user.Email;
+    public Email GetEmail() => _user.Email;
     public string GetPassword() => _password;
     public string GetName() => _user.Name;
     

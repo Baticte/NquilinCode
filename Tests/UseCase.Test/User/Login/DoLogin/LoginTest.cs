@@ -22,7 +22,7 @@ public class LoginTest
         var useCase = CreateUseCase(user, password);
 
         var result = await useCase.Execute(
-            new RequestLoginJson { Email = user.Email, Password = password }, CancellationToken.None);
+            new RequestLoginJson { Email = user.Email.Value, Password = password }, CancellationToken.None);
 
         result.ShouldNotBeNull();
         result.Name.ShouldBe(user.Name);

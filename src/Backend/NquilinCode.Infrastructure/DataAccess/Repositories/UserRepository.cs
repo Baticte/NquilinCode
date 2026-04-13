@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using NquilinCode.Domain.Entities;
 using NquilinCode.Domain.Repositories.User;
+using NquilinCode.Domain.ValueObjects;
 
 namespace NquilinCode.Infrastructure.DataAccess.Repositories;
 
@@ -15,23 +16,23 @@ public class UserRepository : IUserReadOnlyRepository, IUserWriteOnlyRepository,
         await _dbContext.Users.AddAsync(user, cancellationToken);
     }
 
-    public async Task<bool> ExistActiveUserWithEmailAsync(string email, CancellationToken cancellationToken)
+    public async Task<bool> ExistActiveUserWithEmailAsync(Email email, CancellationToken cancellationToken)
     {
         return await _dbContext.Users
             .AsNoTracking()
             .AnyAsync(x => x.Email == email && x.Active, cancellationToken);
     }
 
-    public async Task<User?> GetByEmailAndPasswordAsync(string email, string password,
+    public async Task<User?> GetByEmailAndPasswordAsync(Email email, Password password,
         CancellationToken cancellationToken)
     {
         return await _dbContext.Users
             .AsNoTracking()
-            .FirstOrDefaultAsync(user => user.Active && user.Email == email && user.Password.Equals(password),
+            .FirstOrDefaultAsync(user => user.Active && user.Email == email && user.Password == password,
                 cancellationToken);
     }
 
-    public async Task<User?> GetByEmailAsync(string email, CancellationToken cancellationToken)
+    public async Task<User?> GetByEmailAsync(Email email, CancellationToken cancellationToken)
     {
         return await _dbContext.Users
             .AsNoTracking()

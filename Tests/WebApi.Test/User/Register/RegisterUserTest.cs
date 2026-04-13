@@ -5,13 +5,14 @@ using System.Text.Json;
 using CommonTestUtilities.Requests.User;
 using NquilinCode.Exceptions.Resources;
 using Shouldly;
+using WebApi.Test.Constants;
 using WebApi.Test.InlineData;
 
 namespace WebApi.Test.User.Register;
 
 public class RegisterUserTest : NquilinCodeClassFixture
 {
-    private readonly string _method = "/user";
+    private const string Method = ApiRoutes.Users.User;
 
     public RegisterUserTest(CustomWebApplicationFactory factory) : base(factory) { }
     
@@ -20,7 +21,7 @@ public class RegisterUserTest : NquilinCodeClassFixture
     {
         var request = RequestRegisterUserJsonBuilder.Build();
 
-        var response = await DoPostAsync(_method, request, cancellationToken: TestContext.Current.CancellationToken);
+        var response = await DoPostAsync(Method, request, cancellationToken: TestContext.Current.CancellationToken);
         
         response.StatusCode.ShouldBe(HttpStatusCode.Created);
 
@@ -38,7 +39,7 @@ public class RegisterUserTest : NquilinCodeClassFixture
         var request = RequestRegisterUserJsonBuilder.Build();
         request.Name = string.Empty;
         
-        var response = await DoPostAsync(_method, request, culture, cancellationToken: TestContext.Current.CancellationToken);
+        var response = await DoPostAsync(Method, request, culture, cancellationToken: TestContext.Current.CancellationToken);
         response.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
         
         await using var responseBody = await response.Content.ReadAsStreamAsync(TestContext.Current.CancellationToken);

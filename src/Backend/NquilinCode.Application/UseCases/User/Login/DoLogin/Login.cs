@@ -5,6 +5,7 @@ using NquilinCode.Communication.Requests;
 using NquilinCode.Communication.Responses;
 using NquilinCode.Domain.Repositories.User;
 using NquilinCode.Domain.Security.Tokens;
+using NquilinCode.Domain.ValueObjects;
 using NquilinCode.Exceptions.BaseException;
 
 namespace NquilinCode.Application.UseCases.User.Login.DoLogin;
@@ -29,10 +30,14 @@ public class Login : ILogin
     {
         await Validate(request, cancellationToken);
 
-        var user = await _readOnlyRepository.GetByEmailAsync(request.Email, cancellationToken) ??
+        var email = new Email(request.Email);
+
+        var user = await _readOnlyRepository.GetByEmailAsync(email, cancellationToken) ??
                    throw new InvalidLoginException();
 
-        var result = _passwordHasher.VerifyPassword(request.Password, user.Password);
+        var password = new Password(request.Password);
+
+        var result = _passwordHasher.VerifyPassword(password, user.Password);
         if (!result) throw new InvalidLoginException();
 
         var tokenResult = _accessTokenGenerator.GenerateAccessToken(user.Id);

@@ -1,20 +1,20 @@
 using System.Net;
 using CommonTestUtilities.Tokens;
-using NquilinCode.Infrastructure.Security.Tokens.Access.Generator;
 using Shouldly;
+using WebApi.Test.Constants;
 
 namespace WebApi.Test.User.Profile;
 
 public class GetUserProfileInvalidTokenTest : NquilinCodeClassFixture
 {
-    private readonly string _method = "/user";
-    
+    private const string Method = ApiRoutes.Users.User;
+
     public GetUserProfileInvalidTokenTest(CustomWebApplicationFactory factory) : base(factory) { }
 
     [Fact]
     public async Task Error_Invalid_Token()
     {
-        var response = await DoGetAsync(_method, "invalid_Token", cancellationToken: TestContext.Current.CancellationToken);
+        var response = await DoGetAsync(Method, "invalid_Token", cancellationToken: TestContext.Current.CancellationToken);
         
         response.StatusCode.ShouldBe(HttpStatusCode.Unauthorized);
     }
@@ -22,7 +22,7 @@ public class GetUserProfileInvalidTokenTest : NquilinCodeClassFixture
     [Fact]
     public async Task Error_Without_Token()
     {
-        var response = await DoGetAsync(_method, string.Empty, cancellationToken: TestContext.Current.CancellationToken);
+        var response = await DoGetAsync(Method, string.Empty, cancellationToken: TestContext.Current.CancellationToken);
         
         response.StatusCode.ShouldBe(HttpStatusCode.Unauthorized);
     }
@@ -32,7 +32,7 @@ public class GetUserProfileInvalidTokenTest : NquilinCodeClassFixture
     {
         var token = JwtAccessTokenGeneratorBuilder.Build().GenerateAccessToken(Guid.NewGuid());
 
-        var response = await DoGetAsync(_method, token.Token, cancellationToken: TestContext.Current.CancellationToken);
+        var response = await DoGetAsync(Method, token.Token, cancellationToken: TestContext.Current.CancellationToken);
         
         response.StatusCode.ShouldBe(HttpStatusCode.Unauthorized);
     }

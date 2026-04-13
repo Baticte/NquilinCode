@@ -2,12 +2,13 @@ using System.Net;
 using System.Text.Json;
 using CommonTestUtilities.Tokens;
 using Shouldly;
+using WebApi.Test.Constants;
 
 namespace WebApi.Test.User.Profile;
 
 public class GetUserProfileTest : NquilinCodeClassFixture
 {
-    private readonly string _method = "/user";
+    private const string Method = ApiRoutes.Users.User;
 
     private readonly Guid _userIdentifier;
     private readonly string _name;
@@ -17,7 +18,7 @@ public class GetUserProfileTest : NquilinCodeClassFixture
     {
         _userIdentifier = factory.GetId();
         _name = factory.GetName();
-        _email = factory.GetEmail();
+        _email = factory.GetEmail().Value;
     }
 
     [Fact]
@@ -25,7 +26,7 @@ public class GetUserProfileTest : NquilinCodeClassFixture
     {
         var token = JwtAccessTokenGeneratorBuilder.Build().GenerateAccessToken(_userIdentifier);
 
-        var response = await DoGetAsync(_method, token.Token, cancellationToken: TestContext.Current.CancellationToken);
+        var response = await DoGetAsync(Method, token.Token, cancellationToken: TestContext.Current.CancellationToken);
         
         response.StatusCode.ShouldBe(HttpStatusCode.OK);
 

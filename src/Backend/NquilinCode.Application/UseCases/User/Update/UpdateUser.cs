@@ -4,6 +4,7 @@ using NquilinCode.Communication.Requests;
 using NquilinCode.Domain.Repositories;
 using NquilinCode.Domain.Repositories.User;
 using NquilinCode.Domain.Services.LoggedUser;
+using NquilinCode.Domain.ValueObjects;
 using NquilinCode.Exceptions.BaseException;
 using NquilinCode.Exceptions.Resources;
 
@@ -32,14 +33,15 @@ public class UpdateUser : IUpdateUser
     {
         var loggedUser = await _loggedUser.User(cancellationToken);
 
-        await Validate(request, loggedUser.Email, cancellationToken);
+        await Validate(request, loggedUser.Email.Value, cancellationToken);
 
         var user = await _updateOnlyRepository.GetByIdAsync(loggedUser.Id, cancellationToken);
 
         if(user == null) return;
 
-        user.Name = request.Name;
-        user.Email = request.Email;
+        var email = new Email(request.Email);
+
+        user.Update(request.Name, email);
         
         await _unitOfWork.SaveChangesAsync(cancellationToken);
     }
@@ -50,7 +52,9 @@ public class UpdateUser : IUpdateUser
 
         if (!string.IsNullOrEmpty(request.Email) && !currentEmail.Equals(request.Email))
         {
-            var userExist = await _readOnlyRepository.ExistActiveUserWithEmailAsync(request.Email, cancellationToken);
+            var email = new Email(request.Email);
+            
+            var userExist = await _readOnlyRepository.ExistActiveUserWithEmailAsync(email, cancellationToken);
             if(userExist)
                 result.Errors.Add(new FluentValidation.Results.ValidationFailure("email", ValidationMessages.EXISTS_USER));
         }

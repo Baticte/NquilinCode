@@ -12,6 +12,7 @@ public abstract class VersionBase : ForwardOnlyMigration
             .WithColumn("Active").AsBoolean().NotNullable().WithDefaultValue(true)
             .WithColumn("CreatedAt")
             .AsCustom("timestamp with time zone").NotNullable().WithDefault(SystemMethods.CurrentUTCDateTime)
+            .WithColumn("UpdateAt").AsCustom("timestamp with time zone").Nullable()
             .WithColumn("DeletedAt").AsCustom("timestamp with time zone").Nullable()
             .WithColumn("DeletedBy").AsGuid().Nullable();
     }

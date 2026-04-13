@@ -15,7 +15,10 @@ public class UpdateUserValidator : AbstractValidator<RequestUpdateUserJson>
         RuleFor(x => x.Email)
             .NotEmpty().WithMessage(ValidationMessages.EMAIL_REQUIRED);
 
-        When(x => !string.IsNullOrEmpty(x.Email),
-            () => { RuleFor(x => x.Email).EmailAddress().WithMessage(ValidationMessages.INVALID_EMAIL_FORMAT); });
+        When(user => !string.IsNullOrEmpty(user.Email), () =>
+        {
+            RuleFor(x => x.Email)
+                .EmailAddress().WithMessage(ValidationMessages.INVALID_EMAIL_FORMAT);
+        });
     }
 }

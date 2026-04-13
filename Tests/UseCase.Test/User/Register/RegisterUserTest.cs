@@ -6,6 +6,7 @@ using CommonTestUtilities.Tokens;
 using CommonTestUtilities.Validators;
 using NquilinCode.Application.UseCases.User.Register;
 using NquilinCode.Communication.Requests;
+using NquilinCode.Domain.ValueObjects;
 using NquilinCode.Exceptions.BaseException;
 using NquilinCode.Exceptions.Resources;
 using Shouldly;
@@ -35,7 +36,7 @@ public class RegisterUserTest
 
         var useCase = CreateUseCase(request.Email);
 
-        Func<Task> act = async () => await useCase.Execute(request, CancellationToken.None);
+        var act = async () => await useCase.Execute(request, CancellationToken.None);
 
         var singleError = (await act.ShouldThrowAsync<RegisterUserValidationException>())
             .ErrorMessages.ShouldHaveSingleItem();
@@ -51,7 +52,7 @@ public class RegisterUserTest
 
         var useCase = CreateUseCase();
 
-        Func<Task> act = async () => await useCase.Execute(request, CancellationToken.None);
+        var act = async () => await useCase.Execute(request, CancellationToken.None);
 
         var singleError = (await act.ShouldThrowAsync<RegisterUserValidationException>())
             .ErrorMessages.ShouldHaveSingleItem();
@@ -67,10 +68,12 @@ public class RegisterUserTest
         var passwordHasher = PasswordHasherBuilder.Build();
         var unitOfWork = UnitOfWorkBuilder.Build();
 
-        if (!string.IsNullOrEmpty(email))
-        {
-            readOnlyRepositoryBuilder.ExistActiveUserWithEmail(email);
-        }
+        if (string.IsNullOrEmpty(email))
+            return new RegisterUser(validator, writeOnlyRepository, readOnlyRepositoryBuilder.Build(),
+                jwtAccessTokenBuilder, passwordHasher, unitOfWork);
+        
+        var voEmail = new Email(email);
+        readOnlyRepositoryBuilder.ExistActiveUserWithEmail(voEmail);
 
         return new RegisterUser(validator, writeOnlyRepository, readOnlyRepositoryBuilder.Build(),
             jwtAccessTokenBuilder, passwordHasher, unitOfWork);

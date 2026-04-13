@@ -10,7 +10,7 @@ public static class LoggedUserBuilder
     {
         var mock = new Mock<ILoggedUser>();
 
-        mock.Setup(x => x.User(CancellationToken.None)).ReturnsAsync(user);
+        mock.Setup(x => x.User(It.IsAny<CancellationToken>())).ReturnsAsync(user);
 
         return mock.Object;
     }

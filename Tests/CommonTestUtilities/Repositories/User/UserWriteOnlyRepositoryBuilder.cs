@@ -3,7 +3,7 @@ using NquilinCode.Domain.Repositories.User;
 
 namespace CommonTestUtilities.Repositories.User;
 
-public class UserWriteOnlyRepositoryBuilder
+public static class UserWriteOnlyRepositoryBuilder
 {
     public static IUserWriteOnlyRepository Build()
     {

@@ -3,23 +3,21 @@ using NquilinCode.Communication.Requests;
 
 namespace CommonTestUtilities.Requests.User;
 
-public static class RequestRegisterUserJsonBuilder
+public class RequestUpdateUserJsonBuilder
 {
-    public static RequestRegisterUserJson Build(int passwordLength = 10)
+    public static RequestUpdateUserJson Build()
     {
-        return new Faker<RequestRegisterUserJson>()
+        return new Faker<RequestUpdateUserJson>()
             .RuleFor(u => u.Name, f => f.Name.FullName())
             .RuleFor(u => u.Email, (f, u) =>
             {
                 var normalizedName = u.Name
                     .ToLowerInvariant()
                     .Replace(" ", ".");
-                
+
                 var domain = f.Internet.DomainName();
 
                 return $"{normalizedName}@{domain}";
-            })
-            .RuleFor(u => u.Password, f => f.Internet.Password(passwordLength));
+            });
     }
-
 }

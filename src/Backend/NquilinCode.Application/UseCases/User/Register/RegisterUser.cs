@@ -7,6 +7,7 @@ using NquilinCode.Communication.Responses;
 using NquilinCode.Domain.Repositories;
 using NquilinCode.Domain.Repositories.User;
 using NquilinCode.Domain.Security.Tokens;
+using NquilinCode.Domain.ValueObjects;
 using NquilinCode.Exceptions.BaseException;
 using NquilinCode.Exceptions.Resources;
 using NquilinCode.Kernel.Validators;
@@ -39,9 +40,13 @@ public class RegisterUser : IRegisterUser
     {
         await Validate(request, cancellationToken);
 
-        var user = request.Adapt<Domain.Entities.User>();
-        user.Password = _passwordHasher.HashPassword(request.Password);
+        var email = new Email(request.Email);
+        var password = new Password(request.Password);
+        
+        var passwordHash = _passwordHasher.HashPassword(password);
 
+        var user = Domain.Entities.User.Create(request.Name, email, new Password(passwordHash));
+        
         await _writeOnlyRepository.AddAsync(user, cancellationToken);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
@@ -69,7 +74,9 @@ public class RegisterUser : IRegisterUser
             result.Merge(ValidationResult.Failure(validationResult.Errors.Select(e => e.ErrorMessage)));
         }
 
-        var emailExists = await _readOnlyRepository.ExistActiveUserWithEmailAsync(request.Email, cancellationToken);
+        var email = new Email(request.Email);
+
+        var emailExists = await _readOnlyRepository.ExistActiveUserWithEmailAsync(email, cancellationToken);
         if (emailExists)
             result.Merge(ValidationResult.Failure(ValidationMessages.EXISTS_USER));
 

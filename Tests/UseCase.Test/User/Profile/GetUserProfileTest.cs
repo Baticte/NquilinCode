@@ -1,5 +1,6 @@
 using CommonTestUtilities.Entities;
 using CommonTestUtilities.Services.LoggedUser;
+using NquilinCode.Application.Services.Mapster;
 using NquilinCode.Application.UseCases.User.Profile;
 using Shouldly;
 
@@ -7,6 +8,11 @@ namespace UseCase.Test.User.Profile;
 
 public class GetUserProfileTest
 {
+    public GetUserProfileTest()
+    {
+        MapsterConfiguration.Configure();
+    }
+    
     [Fact]
     public async Task Success()
     {
@@ -18,7 +24,7 @@ public class GetUserProfileTest
         
         result.ShouldNotBeNull();
         result.Name.ShouldBe(user.Name);
-        result.Email.ShouldBe(user.Email);
+        result.Email.ShouldBe(user.Email.Value);
     }
 
     private static GetUserProfile CreateUseCase(NquilinCode.Domain.Entities.User user)
