@@ -1,7 +1,7 @@
-using NquilinCode.Application.Abstractions.Services.Cryptography;
+using NquilinCode.Domain.Security.Cryptography;
 using NquilinCode.Domain.ValueObjects;
 
-namespace NquilinCode.Application.Services.Cryptography;
+namespace NquilinCode.Infrastructure.Security.Cryptography;
 
 public class PasswordHasher : IPasswordHasher
 {

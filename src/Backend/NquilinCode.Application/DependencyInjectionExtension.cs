@@ -1,8 +1,6 @@
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
-using NquilinCode.Application.Abstractions.Services.Cryptography;
 using NquilinCode.Application.Abstractions.UseCases.User;
-using NquilinCode.Application.Services.Cryptography;
 using NquilinCode.Application.UseCases.User.Login.DoLogin;
 using NquilinCode.Application.UseCases.User.Profile;
 using NquilinCode.Application.UseCases.User.Register;
@@ -15,7 +13,6 @@ public static class DependencyInjectionExtension
     public static void AddApplicationServices(this IServiceCollection services)
     {
         AddUseCases(services);
-        AddPasswordHasher(services);
         services.AddValidatorsFromAssemblyContaining<LoginValidator>();
     }
 
@@ -25,10 +22,5 @@ public static class DependencyInjectionExtension
         services.AddScoped<ILogin, Login>();
         services.AddScoped<IGetUserProfile, GetUserProfile>();
         services.AddScoped<IUpdateUser, UpdateUser>();
-    }
-
-    private static void AddPasswordHasher(IServiceCollection services)
-    {
-        services.AddSingleton<IPasswordHasher, PasswordHasher>();
     }
 }

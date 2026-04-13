@@ -1,6 +1,5 @@
-using Moq;
-using NquilinCode.Application.Abstractions.Services.Cryptography;
-using NquilinCode.Application.Services.Cryptography;
+using NquilinCode.Domain.Security.Cryptography;
+using NquilinCode.Infrastructure.Security.Cryptography;
 
 namespace CommonTestUtilities.Cryptography;
 

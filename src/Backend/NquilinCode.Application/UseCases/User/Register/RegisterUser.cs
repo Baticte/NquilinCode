@@ -1,11 +1,10 @@
 using FluentValidation;
-using Mapster;
-using NquilinCode.Application.Abstractions.Services.Cryptography;
 using NquilinCode.Application.Abstractions.UseCases.User;
 using NquilinCode.Communication.Requests;
 using NquilinCode.Communication.Responses;
 using NquilinCode.Domain.Repositories;
 using NquilinCode.Domain.Repositories.User;
+using NquilinCode.Domain.Security.Cryptography;
 using NquilinCode.Domain.Security.Tokens;
 using NquilinCode.Domain.ValueObjects;
 using NquilinCode.Exceptions.BaseException;

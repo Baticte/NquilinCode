@@ -9,7 +9,7 @@ public class Email
 
     public Email(string value)
     {
-        if (string.IsNullOrWhiteSpace(value) || !value.Contains("@"))
+        if (string.IsNullOrWhiteSpace(value) || !value.Contains('@'))
         {
             throw new RegisterUserValidationException(ValidationMessages.INVALID_EMAIL_FORMAT);
         }

@@ -6,11 +6,13 @@ using Microsoft.Extensions.DependencyInjection;
 using NquilinCode.Domain.Enums;
 using NquilinCode.Domain.Repositories;
 using NquilinCode.Domain.Repositories.User;
+using NquilinCode.Domain.Security.Cryptography;
 using NquilinCode.Domain.Security.Tokens;
 using NquilinCode.Domain.Services.LoggedUser;
 using NquilinCode.Infrastructure.DataAccess;
 using NquilinCode.Infrastructure.DataAccess.Repositories;
 using NquilinCode.Infrastructure.Extensions;
+using NquilinCode.Infrastructure.Security.Cryptography;
 using NquilinCode.Infrastructure.Security.Tokens.Access.Generator;
 using NquilinCode.Infrastructure.Security.Tokens.Access.Validator;
 using NquilinCode.Infrastructure.Services.LoggedUser;
@@ -38,6 +40,7 @@ public static class DependencyInjectionExtension
 
         AddTokens(services, configuration);
         AddLoggedUser(services);
+        AddPasswordHasher(services, configuration);
     }
 
     private static void AddDbContextSqlServer(IServiceCollection services, IConfiguration configuration)
@@ -101,4 +104,9 @@ public static class DependencyInjectionExtension
     }
 
     private static void AddLoggedUser(IServiceCollection services) => services.AddScoped<ILoggedUser, LoggedUser>();
+    
+    private static void AddPasswordHasher(IServiceCollection services, IConfiguration configuration)
+    {
+        services.AddScoped<IPasswordHasher, PasswordHasher>();
+    }
 }

@@ -1,6 +1,6 @@
 using NquilinCode.Domain.ValueObjects;
 
-namespace NquilinCode.Application.Abstractions.Services.Cryptography;
+namespace NquilinCode.Domain.Security.Cryptography;
 
 public interface IPasswordHasher
 {
